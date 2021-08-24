@@ -2,9 +2,10 @@ import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
+import Home from "./Home";
+import Admin, { NotFound } from "./Admin";
 
 function App() {
   return (
@@ -28,33 +29,5 @@ function App() {
   );
 }
 
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function HomeLink(text) {
-  return (
-    <Link to="/">{text}</Link>
-  )
-}
-
-function Admin() {
-  return (
-    <div>
-      {HomeLink("View Home")}
-      <h2>Admin Page</h2>
-    </div>
-  );
-}
-
-function NotFound() {
-  return (
-    <div>
-      <h1>404 PAGE NOT FOUND</h1>
-      <h3>Return to {HomeLink("home")}</h3>
-    </div>
-    
-  )
-}
 
 export default App
