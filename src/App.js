@@ -10,7 +10,7 @@ import SignInPage from "./admin/SignIn";
 
 function App() {
   const [currentUser, setUser] = useState('')
-  const [loginStatus, setLoginStatus] = useState(0);
+  const [loginStatus, setLoginStatus] = useState(false);
 
   return (
     <Router>
@@ -19,8 +19,7 @@ function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route exact path="/admin">
-            {loginStatus === 0 && <SignInPage />}
-            {loginStatus === 1 && <Admin />}
+            {loginStatus ? <Admin /> : <SignInPage setUser={setUser} setLoginStatus={setLoginStatus} />}
           </Route>
           <Route exact path="/">
             <Home currentUser={currentUser} />
