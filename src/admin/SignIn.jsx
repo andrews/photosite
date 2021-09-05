@@ -27,12 +27,21 @@ function SignInPage({setUser, setLoginStatus}) {
   )
 }
 
-async function signOut() {
-  try {
-      await Auth.signOut();
-  } catch (error) {
-      console.log('error signing out: ', error);
+export function SignOutButton({ setLoginStatus }) {
+  async function signOutHandle() {
+    try {
+        await Auth.signOut();
+        setLoginStatus(false);
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
   }
+
+  return(
+    <div>
+      <button onClick={signOutHandle}>Sign Out</button>
+    </div>
+  )
 }
 
 export default SignInPage;

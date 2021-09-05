@@ -19,7 +19,7 @@ function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route exact path="/admin">
-            {loginStatus ? <Admin /> : <SignInPage setUser={setUser} setLoginStatus={setLoginStatus} />}
+            {loginStatus ? <Admin setLoginStatus={setLoginStatus} /> : <SignInPage setUser={setUser} setLoginStatus={setLoginStatus} />}
           </Route>
           <Route exact path="/">
             <Home currentUser={currentUser} />
