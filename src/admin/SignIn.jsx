@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 
-function SignInPage({setUser, setLoginStatus}) {
+function SignInPage({ setLoginStatus }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
@@ -11,7 +11,6 @@ function SignInPage({setUser, setLoginStatus}) {
       const user = await Auth.signIn(username, password);
       console.log(user);
       setLoginStatus(true);
-      setUser(user.username);
     } catch (error) {
       console.log('error signing in', error);
       setErrMsg(error.message);

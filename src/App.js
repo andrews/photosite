@@ -9,14 +9,13 @@ import Admin, { NotFound } from "./admin/Admin";
 import SignInPage from "./admin/SignIn";
 
 function App() {
-  const [currentUser, setUser] = useState('')
   const [loginStatus, setLoginStatus] = useState(false);
 
   function RenderAdmin() {
     if (loginStatus) {
-      return <Admin currentUser={currentUser} setLoginStatus={setLoginStatus} />
+      return <Admin setLoginStatus={setLoginStatus} />
     } else {
-      return <SignInPage setUser={setUser} setLoginStatus={setLoginStatus} />
+      return <SignInPage setLoginStatus={setLoginStatus} />
     }
   }
 
