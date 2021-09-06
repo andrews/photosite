@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
 import Home from "./Home";
-import Admin, { NotFound } from "./Admin";
+import Admin, { NotFound } from "./admin/Admin";
+import SignInPage from "./admin/SignIn";
 
 function App() {
+  const [loginStatus, setLoginStatus] = useState(false);
+
+  function RenderAdmin() {
+    if (loginStatus) {
+      return <Admin setLoginStatus={setLoginStatus} />
+    } else {
+      return <SignInPage setLoginStatus={setLoginStatus} />
+    }
+  }
+
   return (
     <Router>
       <div>
@@ -15,7 +26,7 @@ function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route exact path="/admin">
-            <Admin />
+            <RenderAdmin />
           </Route>
           <Route exact path="/">
             <Home />

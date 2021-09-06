@@ -1,14 +1,14 @@
-import { HomeLink } from './Home';
+import { HomeLink } from '../Home';
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import '../App.css';
 import { API } from 'aws-amplify';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { listPictures } from './graphql/queries';
-import { createPicture as createPictureMutation, deletePicture as deletePictureMutation } from './graphql/mutations';
+import { listPictures } from '../graphql/queries';
+import { createPicture as createPictureMutation, deletePicture as deletePictureMutation } from '../graphql/mutations';
+import { SignOutButton } from './SignIn';
 
 const initialFormState = { name: '', description: '' }
 
-function Admin() {
+function Admin({ setLoginStatus }) {
   const [pictures, setPictures] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
 
@@ -60,7 +60,7 @@ function Admin() {
           ))
         }
       </div>
-      <AmplifySignOut />
+      <SignOutButton setLoginStatus={setLoginStatus}/>
     </div>
   );
 }
@@ -76,4 +76,4 @@ export function NotFound() {
   )
 }
 
-export default withAuthenticator(Admin);
+export default Admin;
