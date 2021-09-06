@@ -12,6 +12,14 @@ function App() {
   const [currentUser, setUser] = useState('')
   const [loginStatus, setLoginStatus] = useState(false);
 
+  function RenderAdmin() {
+    if (loginStatus) {
+      return <Admin currentUser={currentUser} setLoginStatus={setLoginStatus} />
+    } else {
+      return <SignInPage setUser={setUser} setLoginStatus={setLoginStatus} />
+    }
+  }
+
   return (
     <Router>
       <div>
@@ -19,10 +27,10 @@ function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route exact path="/admin">
-            {loginStatus ? <Admin setLoginStatus={setLoginStatus} /> : <SignInPage setUser={setUser} setLoginStatus={setLoginStatus} />}
+            <RenderAdmin />
           </Route>
           <Route exact path="/">
-            <Home currentUser={currentUser} />
+            <Home />
           </Route>
           <Route> 
             <NotFound />

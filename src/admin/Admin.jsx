@@ -2,7 +2,6 @@ import { HomeLink } from '../Home';
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { API } from 'aws-amplify';
-// import { withAAmplifySignOut } from '@aws-amplify/ui-react';
 import { listPictures } from '../graphql/queries';
 import { createPicture as createPictureMutation, deletePicture as deletePictureMutation } from '../graphql/mutations';
 import { SignOutButton } from './SignIn';

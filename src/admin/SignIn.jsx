@@ -4,15 +4,17 @@ import { Auth } from 'aws-amplify';
 function SignInPage({setUser, setLoginStatus}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errMsg, setErrMsg] = useState('');
 
   async function signInHandle() {
     try {
       const user = await Auth.signIn(username, password);
       console.log(user);
       setLoginStatus(true);
-      setUser(user);
+      setUser(user.username);
     } catch (error) {
-      console.log('error signing in', error)
+      console.log('error signing in', error);
+      setErrMsg(error.message);
     }
   }
 
@@ -23,6 +25,7 @@ function SignInPage({setUser, setLoginStatus}) {
       <p>Password</p>
       <input placeholder='password' type='password' onChange={(e) => setPassword(e.target.value)} />
       <button onClick={signInHandle}>Sign In</button>
+      <p>{errMsg}</p>
     </div>
   )
 }
