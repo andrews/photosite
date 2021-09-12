@@ -1,7 +1,7 @@
 import { HomeLink } from '../Home';
 import React, { useState, useEffect } from 'react';
 import '../App.css';
-import { API } from 'aws-amplify';
+import { API, Storage } from 'aws-amplify';
 import { listPictures } from '../graphql/queries';
 import { createPicture as createPictureMutation, deletePicture as deletePictureMutation } from '../graphql/mutations';
 import { SignOutButton } from './SignIn';
@@ -18,13 +18,25 @@ function Admin({ setLoginStatus }) {
 
   async function fetchPictures() {
     const apiData = await API.graphql({ query: listPictures });
-   setPictures(apiData.data.listPictures.items);
+    const picturesFromAPI = apiData.data.listPictures.items;
+    await Promise.all(picturesFromAPI.map(async picture => {
+      if (picture.image) {
+        const image = await Storage.get(picture.image);
+        picture.image = image;
+      }
+      return picture;
+    }))
+    setPictures(apiData.data.listPictures.items);
   }
 
   async function createPicture() {
     if (!formData.name || !formData.description) return;
     await API.graphql({ query: createPictureMutation, variables: { input: formData } });
-   setPictures([ ...pictures, formData ]);
+    if (formData.image) {
+      const image = await Storage.get(formData.image);
+      formData.image = image;
+    }
+    setPictures([ ...pictures, formData ]);
     setFormData(initialFormState);
   }
 
@@ -32,6 +44,14 @@ function Admin({ setLoginStatus }) {
     const newPicturesArray = pictures.filter(picture => picture.id !== id);
    setPictures(newPicturesArray);
     await API.graphql({ query: deletePictureMutation, variables: { input: { id } }});
+  }
+
+  async function onChange(e) {
+    if (!e.target.files[0]) return
+    const file = e.target.files[0];
+    setFormData({ ...formData, image: file.name });
+    await Storage.put(file.name, file);
+    fetchPictures();
   }
 
   return (
@@ -48,6 +68,10 @@ function Admin({ setLoginStatus }) {
         placeholder="Picture description"
         value={formData.description}
       />
+      <input
+        type="file"
+        onChange={onChange}
+      />
       <button onClick={createPicture}>Create Picture</button>
       <div style={{marginBottom: 30}}>
         {
@@ -56,6 +80,9 @@ function Admin({ setLoginStatus }) {
               <h2>{picture.name}</h2>
               <p>{picture.description}</p>
               <button onClick={() => deletePicture(picture)}>Delete picture</button>
+              {
+                picture.image && <img src={picture.image} style={{width:400}} />
+              }
             </div>
           ))
         }
