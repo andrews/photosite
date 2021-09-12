@@ -10,6 +10,7 @@ export const createPicture = /* GraphQL */ `
       id
       name
       description
+      image
       createdAt
       updatedAt
     }
@@ -24,6 +25,7 @@ export const updatePicture = /* GraphQL */ `
       id
       name
       description
+      image
       createdAt
       updatedAt
     }
@@ -38,6 +40,7 @@ export const deletePicture = /* GraphQL */ `
       id
       name
       description
+      image
       createdAt
       updatedAt
     }

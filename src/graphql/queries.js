@@ -7,6 +7,7 @@ export const getPicture = /* GraphQL */ `
       id
       name
       description
+      image
       createdAt
       updatedAt
     }
@@ -23,6 +24,7 @@ export const listPictures = /* GraphQL */ `
         id
         name
         description
+        image
         createdAt
         updatedAt
       }
